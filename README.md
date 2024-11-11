@@ -10,7 +10,7 @@ A personal user-installable Discord bot for various utilities.
 
 ## 📦 Usage
 
-> [!DANGER]
+> [!CAUTION]
 > Requires Node 20.0.0+
 
 1. Install dependencies with `npm install`.
