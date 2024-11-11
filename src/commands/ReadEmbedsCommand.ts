@@ -22,6 +22,7 @@ export class ReadEmbedsCommand extends AbstractContextMenuCommand {
 
   protected static readonly MaxLengthRegex = new RegExp(
     `.{1,${ReadEmbedsCommand.MaxLength}}`,
+    'g',
   );
 
   protected createData(): ContextMenuCommandBuilder {
