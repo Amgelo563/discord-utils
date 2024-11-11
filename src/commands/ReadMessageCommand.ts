@@ -21,7 +21,7 @@ export class ReadMessageCommand extends AbstractContextMenuCommand {
     MessageLimits.Content - ReadMessageCommand.EmptyCodeblockLength;
 
   protected static readonly MaxLengthRegex = new RegExp(
-    `.{1,${ReadMessageCommand.MaxLength}}`,
+    `(.|[\r\n]){1,${ReadMessageCommand.MaxLength}}`,
     'g',
   );
 
