@@ -105,6 +105,7 @@ export class EvalCommand extends AbstractStandaloneCommand {
       .setContexts(
         InteractionContextType.BotDM,
         InteractionContextType.PrivateChannel,
+        InteractionContextType.Guild,
       );
   }
 }

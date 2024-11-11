@@ -26,6 +26,7 @@ export class ReadMessageCommand extends AbstractContextMenuCommand {
       .setContexts(
         InteractionContextType.BotDM,
         InteractionContextType.PrivateChannel,
+        InteractionContextType.Guild,
       );
   }
 

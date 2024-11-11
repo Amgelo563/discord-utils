@@ -26,6 +26,7 @@ export class ReadEmbedsCommand extends AbstractContextMenuCommand {
       .setContexts(
         InteractionContextType.BotDM,
         InteractionContextType.PrivateChannel,
+        InteractionContextType.Guild,
       );
   }
 
