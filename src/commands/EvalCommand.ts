@@ -45,7 +45,7 @@ export class EvalCommand extends AbstractStandaloneCommand {
     await interaction.deferReply({ ephemeral: true });
 
     const rawCode = interaction.options.getString('code', true);
-    const code = `async () => { ${rawCode} }()`;
+    const code = `(async () => { ${rawCode} })()`;
     const now = performance.now();
 
     const embed = new EmbedBuilder()
