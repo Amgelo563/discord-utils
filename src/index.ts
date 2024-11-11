@@ -3,6 +3,7 @@ import { Bot } from '@nyx-discord/framework';
 import { Client } from 'discord.js';
 import { EvalCommand } from './commands/EvalCommand';
 import { ReadEmbedsCommand } from './commands/ReadEmbedsCommand';
+import { ReadMessageCommand } from './commands/ReadMessageCommand';
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -25,6 +26,7 @@ const bot = Bot.create(() => ({
 }));
 
 const commands: TopLevelCommand[] = [
+  ReadMessageCommand.Instance,
   ReadEmbedsCommand.Instance,
   EvalCommand.Instance,
 ];
