@@ -4,7 +4,8 @@ import {
   ApplicationIntegrationType,
   codeBlock,
   ContextMenuCommandBuilder,
-  escapeMarkdown,
+  escapeCodeBlock,
+  escapeInlineCode,
   InteractionContextType,
   type MessageContextMenuCommandInteraction,
 } from 'discord.js';
@@ -18,6 +19,10 @@ export class ReadMessageCommand extends AbstractContextMenuCommand {
 
   protected static readonly MaxLength =
     MessageLimits.Content - ReadMessageCommand.EmptyCodeblockLength;
+
+  protected static readonly MaxLengthRegex = new RegExp(
+    `.{1,${ReadMessageCommand.MaxLength}}`,
+  );
 
   protected createData(): ContextMenuCommandBuilder {
     return new ContextMenuCommandBuilder()
@@ -36,14 +41,24 @@ export class ReadMessageCommand extends AbstractContextMenuCommand {
   ): Promise<void> {
     const message = interaction.targetMessage;
     const formatted = formatWithOptions({ depth: 2 }, '%O', message);
-    const escaped = escapeMarkdown(formatted, {
-      inlineCode: true,
-      codeBlock: true,
-    });
-    const sliced = escaped.slice(0, ReadMessageCommand.MaxLength);
+    const escaped = escapeCodeBlock(escapeInlineCode(formatted));
 
-    const codeblock = codeBlock('js', sliced);
+    const slicedParts = escaped.match(ReadMessageCommand.MaxLengthRegex);
+    if (!slicedParts) {
+      await interaction.reply({
+        content: 'Failed to match message',
+        ephemeral: true,
+      });
+      return;
+    }
 
-    await interaction.reply({ content: codeblock, ephemeral: true });
+    for (const [i, part] of slicedParts.entries()) {
+      const codeblock = codeBlock('js', part);
+      if (i === 0) {
+        await interaction.reply({ content: codeblock, ephemeral: true });
+      } else {
+        await interaction.followUp({ content: codeblock, ephemeral: true });
+      }
+    }
   }
 }
