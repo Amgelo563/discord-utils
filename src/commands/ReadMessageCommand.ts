@@ -33,11 +33,11 @@ export class ReadMessageCommand extends AbstractContextMenuCommand {
     interaction: MessageContextMenuCommandInteraction,
   ): Promise<void> {
     const message = interaction.targetMessage;
-    const formatted = formatWithOptions({ depth: 2 }, '%O', message);
-    const codeblock = codeBlock('js', formatted).slice(
+    const formatted = formatWithOptions({ depth: 2 }, '%O', message).slice(
       0,
       ReadMessageCommand.MaxLength,
     );
+    const codeblock = codeBlock('js', formatted);
 
     await interaction.reply({ content: codeblock, ephemeral: true });
   }
