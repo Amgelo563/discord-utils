@@ -4,6 +4,7 @@ import {
   ApplicationIntegrationType,
   codeBlock,
   ContextMenuCommandBuilder,
+  escapeMarkdown,
   InteractionContextType,
   type MessageContextMenuCommandInteraction,
 } from 'discord.js';
@@ -38,7 +39,12 @@ export class ReadMessageCommand extends AbstractContextMenuCommand {
       0,
       ReadMessageCommand.MaxLength,
     );
-    const codeblock = codeBlock('js', formatted);
+    const escaped = escapeMarkdown(formatted, {
+      inlineCode: true,
+      codeBlock: true,
+    });
+
+    const codeblock = codeBlock('js', escaped);
 
     await interaction.reply({ content: codeblock, ephemeral: true });
   }
