@@ -38,16 +38,14 @@ export class ReadEmbedsCommand extends AbstractContextMenuCommand {
     const { embeds } = message;
     const datas = embeds.map((embed) => embed.toJSON());
 
-    const formatted = formatWithOptions({ depth: 3 }, '%O', datas).slice(
-      0,
-      ReadEmbedsCommand.MaxLength,
-    );
+    const formatted = formatWithOptions({ depth: 3 }, '%O', datas);
     const escaped = escapeMarkdown(formatted, {
       inlineCode: true,
       codeBlock: true,
     });
+    const sliced = escaped.slice(0, ReadEmbedsCommand.MaxLength);
 
-    const codeblock = codeBlock('js', escaped);
+    const codeblock = codeBlock('js', sliced);
 
     await interaction.reply({ content: codeblock, ephemeral: true });
   }
