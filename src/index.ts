@@ -4,6 +4,7 @@ import { Client } from 'discord.js';
 import { EvalCommand } from './commands/EvalCommand';
 import { ReadEmbedsCommand } from './commands/ReadEmbedsCommand';
 import { ReadMessageCommand } from './commands/ReadMessageCommand';
+import { ReplyWithCommand } from './commands/ReplyWithCommand';
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -29,6 +30,7 @@ const commands: TopLevelCommand[] = [
   ReadMessageCommand.Instance,
   ReadEmbedsCommand.Instance,
   EvalCommand.Instance,
+  ReplyWithCommand.Instance,
 ];
 void bot.getCommandManager().addCommands(...commands);
 
