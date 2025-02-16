@@ -41,18 +41,17 @@ export class ReplyWithCommand extends AbstractStandaloneCommand {
       return;
     }
     const input = interaction.options.getString('input', true);
+    await interaction.deferReply({ ephemeral: true });
 
     // Try to treat as an object
     try {
       const wrapped = input.startsWith('{') ? input : `{ ${input} }`;
       const parsed = eval(`(${wrapped})`);
-      await interaction.reply(parsed);
+      await interaction.editReply(parsed);
       return;
     } catch {
       // ignore, treat as code
     }
-
-    await interaction.deferReply({ ephemeral: true });
 
     const code = `(async (args) => {
 const i = args.interaction;
