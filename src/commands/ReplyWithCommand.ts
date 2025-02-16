@@ -45,7 +45,7 @@ export class ReplyWithCommand extends AbstractStandaloneCommand {
     // Try to treat as an object
     try {
       const wrapped = input.startsWith('{') ? input : `{ ${input} }`;
-      const parsed = JSON.parse(wrapped);
+      const parsed = eval(`(${wrapped})`);
       await interaction.reply(parsed);
       return;
     } catch {
