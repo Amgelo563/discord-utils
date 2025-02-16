@@ -55,12 +55,22 @@ export class ReplyWithCommand extends AbstractStandaloneCommand {
     await interaction.deferReply({ ephemeral: true });
 
     const code = `(async (args) => {
-const i, interaction = args.interaction;
-const g, guild = args.guild;
-const c, channel = args.channel;
-const mess, message = args.message;
-const u, user = args.user;
-const mem, member = args.member;
+const i = args.interaction;
+
+const g = args.guild;
+const guild = args.guild;
+
+const c = args.channel;
+const channel = args.channel;
+
+const mess = args.message;
+const message = args.message;
+
+const u = args.user
+const user = args.user;
+
+const mem = args.member;
+const member = args.member;
 
 ${input.startsWith('return') ? '' : 'return '}${input};
 })`;
