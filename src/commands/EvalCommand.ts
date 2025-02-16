@@ -45,8 +45,17 @@ export class EvalCommand extends AbstractStandaloneCommand {
     await interaction.deferReply({ ephemeral: true });
 
     const rawCode = interaction.options.getString('code', true);
-    const code = `(async () => { ${rawCode} })()`;
-    const now = performance.now();
+    const code = `(async (args) => {
+const i, interaction = args.interaction;
+const g, guild = args.guild;
+const c, channel = args.channel;
+const mess, message = args.message;
+const u, user = args.user;
+const mem, member = args.member;
+
+${rawCode.startsWith('return') ? '' : 'return '}${rawCode};
+})`;
+    const now = globalThis.performance.now();
 
     const embed = new EmbedBuilder()
       .setColor('Green')
@@ -54,7 +63,14 @@ export class EvalCommand extends AbstractStandaloneCommand {
 
     let result;
     try {
-      const evalled = await eval(code);
+      const evalled = await eval(code)({
+        interaction,
+        guild: interaction.guild,
+        channel: interaction.channel,
+        message: interaction,
+        user: interaction.user,
+        member: interaction.member,
+      });
       const depth = interaction.options.getInteger('depth') ?? 1;
 
       if (typeof evalled === 'object') {
