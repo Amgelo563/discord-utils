@@ -8,6 +8,7 @@ import {
   codeBlock,
   EmbedBuilder,
   InteractionContextType,
+  Routes,
   SlashCommandBuilder,
 } from 'discord.js';
 import { MessageLimits } from '../limits/MessageLimits';
@@ -47,7 +48,14 @@ export class ReplyWithCommand extends AbstractStandaloneCommand {
     try {
       const wrapped = input.startsWith('{') ? input : `{ ${input} }`;
       const parsed = eval(`(${wrapped})`);
-      await interaction.editReply(parsed);
+      await interaction.client.rest.patch(
+        Routes.webhookMessage(interaction.id, interaction.token),
+        {
+          body: parsed,
+          query: undefined,
+          auth: false,
+        },
+      );
       return;
     } catch {
       // ignore, treat as code
@@ -88,7 +96,14 @@ ${input.startsWith('return') ? '' : 'return '}${input};
         return;
       }
 
-      await interaction.editReply(reply);
+      await interaction.client.rest.patch(
+        Routes.webhookMessage(interaction.id, interaction.token),
+        {
+          body: reply,
+          query: undefined,
+          auth: false,
+        },
+      );
     } catch (error: any) {
       const after = performance.now();
       const title = `Output ${(after - now).toFixed(5)}ms`;
