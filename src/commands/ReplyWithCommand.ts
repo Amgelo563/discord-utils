@@ -49,7 +49,10 @@ export class ReplyWithCommand extends AbstractStandaloneCommand {
       const wrapped = input.startsWith('{') ? input : `{ ${input} }`;
       const parsed = eval(`(${wrapped})`);
       await interaction.client.rest.patch(
-        Routes.webhookMessage(interaction.id, interaction.token),
+        Routes.webhookMessage(
+          interaction.webhook.id,
+          interaction.webhook.token,
+        ),
         {
           body: parsed,
           query: undefined,
@@ -97,7 +100,10 @@ ${input.startsWith('return') ? '' : 'return '}${input};
       }
 
       await interaction.client.rest.patch(
-        Routes.webhookMessage(interaction.id, interaction.token),
+        Routes.webhookMessage(
+          interaction.webhook.id,
+          interaction.webhook.token,
+        ),
         {
           body: reply,
           query: undefined,
