@@ -15,7 +15,7 @@ import { MessageLimits } from '../limits/MessageLimits';
 export class ReadMessageCommand extends AbstractContextMenuCommand {
   public static readonly Instance = new ReadMessageCommand();
 
-  protected static readonly EmptyCodeblockLength = codeBlock('').length;
+  protected static readonly EmptyCodeblockLength = codeBlock('js').length;
 
   protected static readonly MaxLength =
     MessageLimits.Content - ReadMessageCommand.EmptyCodeblockLength;
